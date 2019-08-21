@@ -2,7 +2,7 @@
 
 React Native App built willing the viability study of RN withing major projects
 
-![Screenshot](https://github.com/zyzmoz/topicwhiz/blob/master/screenshot.png?raw=true =360x640)
+![Screenshot](https://github.com/zyzmoz/topicwhiz/blob/master/screenshot.png=360x640)
 
 ## Tools used
 - React Native
