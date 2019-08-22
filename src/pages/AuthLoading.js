@@ -6,10 +6,19 @@ import {
   StyleSheet,
   View
 } from 'react-native';
+import { firebaseApp } from '../api';
 
 const AuthLoading = (props) => {
   _bootstrapAsync = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');    
+    const userToken = await AsyncStorage.getItem('userToken'); 
+    
+    if (userToken){      
+      const { email, password } = JSON.parse(userToken);
+      firebaseApp.auth().signInWithEmailAndPassword(email,password);
+      //.signInWithCredential(JSON.parse(userToken));
+      //
+    }
+    
     props.navigation.navigate(userToken ? 'App' : 'Auth');   
     
   };

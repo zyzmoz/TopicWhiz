@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Button, AsyncStorage } from 'react-native';
 import { firebaseApp } from '../api';
 
 
 
+
 const Home = (props) => {
+
+  console.log(firebaseApp.auth().currentUser);
+
   signOut = async () => {
     await AsyncStorage.removeItem('userToken');
     await firebaseApp.auth().signOut();
@@ -18,10 +22,28 @@ const Home = (props) => {
   );
 }
 
+const UserName = () => {
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    _getUserName = async () => {
+      const user = await AsyncStorage.getItem('username');
+      setUsername(user);
+    }
+    _getUserName();
+  }, []);
+  return (
+    <Text style={{ margin: 8, paddingVertical: 8, color: "#222" }} >{username}</Text>
+  )
+}
+
 Home.navigationOptions = {
   // header: null
   headerLeft: (
-    <Text onPress={() => this.signOut()}  style={{margin: 8, paddingVertical: 8, color:"#5d9cec"}} >Sign Out</Text>
+    <Text onPress={() => this.signOut()} style={{ margin: 8, paddingVertical: 8, color: "#5d9cec" }} >Sign Out</Text>
+  ),
+  headerRight: (
+    <UserName />
   ),
 }
 

@@ -1,23 +1,31 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import Button from '../util/Button';
 import formStyles from '../util/FormStyles';
-import {firebaseApp} from '../api';
+import { firebaseApp } from '../api';
 
 const SignUp = (props) => {
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
   const [loading, setLoading] = useState(false);
   registerUser = () => {
     setLoading(true);
-    firebaseApp.auth().createUserWithEmailAndPassword(email.trim(), password)  
+    firebaseApp.auth().createUserWithEmailAndPassword(email.trim(), password)
       .then(res => {
-        console.log('res', res);
-        props.navigation.goBack();        
+        firebaseApp.auth().signInWithEmailAndPassword(email.trim(), password)
+          .then(res => {
+            firebaseApp.auth().currentUser.updateProfile({
+              displayName: username
+            }).then(() => {
+              firebaseApp.auth().signOut();
+            })
+          });
+        props.navigation.goBack();
       })
   }
-  
+
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
@@ -28,7 +36,14 @@ const SignUp = (props) => {
         textContentType="emailAddress"
         value={email}
         onChangeText={e => setEmail(e)}
-      />            
+      />
+      <Text>Username</Text>
+      <TextInput
+        placeholder="Username"
+        style={formStyles.input}
+        value={username}
+        onChangeText={e => setUsername(e)}
+      />
       <Text>Password</Text>
       <TextInput
         placeholder="Password"
@@ -46,13 +61,11 @@ const SignUp = (props) => {
         onChangeText={e => setPassword2(e)}
       />
       <View style={styles.bottom}>
-        <Button 
-          disabled={password == '' || (password!== '' && password !== password2) } 
+        <Button
+          disabled={password == '' || (password !== '' && password !== password2) || username === ''}
           isLoading={loading}
           title="Sign Up" color="success" onPress={() => registerUser()} />
       </View>
-
-
 
     </KeyboardAvoidingView>
   );

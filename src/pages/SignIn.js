@@ -2,7 +2,10 @@ import React, {useState} from 'react';
 import { View, Text, TextInput, StyleSheet, Image, AsyncStorage, KeyboardAvoidingView } from 'react-native';
 import formStyles from '../util/FormStyles';
 import Button from '../util/Button';
+import firebase from 'firebase';
 import {firebaseApp} from '../api';
+
+
 
 const SignIn = (props) => {
   const [email, setEmail] = useState('');
@@ -11,10 +14,13 @@ const SignIn = (props) => {
 
   signIn = () => {
     setLoading(true);
+    
     firebaseApp.auth().signInWithEmailAndPassword(email.trim(), password)
-      .then(async res => {        
-        //set token
-        await AsyncStorage.setItem('userToken', res.user.uid);        
+      .then(async res => {         
+        //set token        
+        const credential = firebase.auth.EmailAuthProvider.credential(email.trim(), password);
+        await AsyncStorage.setItem('userToken', JSON.stringify(credential));        
+        await AsyncStorage.setItem('username', res.user.displayName || 'New User');
         props.navigation.navigate('App')
       });
   }
