@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, StyleSheet, Text, ActivityIndicator } from 'react-native';
 
 
-const Button = ({ title, color, onPress, isLoading }) => {
+const Button = ({ title, color, onPress, isLoading, disabled }) => {
   colors = {
     primary: { color: 'white', backgroundColor: '#5d9cec' },
     success: { color: 'white', backgroundColor: '#A0d468' },
@@ -16,9 +16,12 @@ const Button = ({ title, color, onPress, isLoading }) => {
 
   const link = color === 'link' ? { elevation: 0 } : {};
   return (
-    <TouchableOpacity onPress={() => onPress()} style={{ ...styles.buttonContainer, ...link }} disabled={isLoading}>
+    <TouchableOpacity 
+      onPress={() => onPress()} 
+      style={{ ...styles.buttonContainer, ...link }} 
+      disabled={disabled||isLoading}>
       {!isLoading ?
-        <Text style={{ ...styles.button, ...colors[color] }}>
+        <Text style={{ ...styles.button, ...colors[color]}}>
           {title}
         </Text> :
         <ActivityIndicator style={{ ...styles.button, ...colors[color] }} size="small" color={color?colors[color].color: 'white'}/>

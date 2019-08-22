@@ -9,11 +9,8 @@ import {
 
 const AuthLoading = (props) => {
   _bootstrapAsync = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
-
-    // setTimeout(() => {
-    props.navigation.navigate(userToken ? 'App' : 'Auth');
-    // }, 2000);
+    const userToken = await AsyncStorage.getItem('userToken');    
+    props.navigation.navigate(userToken ? 'App' : 'Auth');   
     
   };
 

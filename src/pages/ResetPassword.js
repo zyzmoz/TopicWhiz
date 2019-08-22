@@ -1,10 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import Button from '../util/Button';
 import formStyles from '../util/FormStyles';
+import {firebaseApp} from '../api';
 
 const ResetPassword = (props) => {
-
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  sendEmail = () => {
+    setLoading(true);
+    firebaseApp.auth().sendPasswordResetEmail(email)
+      .then(res => {
+        console.log(res);
+        props.navigation.goBack();
+      });
+  }
   return (
     <View style={styles.container}>
       <Text>Email</Text>
@@ -12,10 +22,15 @@ const ResetPassword = (props) => {
         placeholder="Email"
         style={formStyles.input}
         textContentType="emailAddress"
+        value={email}
+        onChangeText={e => setEmail(e)}
       />
 
       <View >
-        <Button title="Send Recovery Email" color="warning" onPress={() => alert('hello')} />
+        <Button 
+          isLoading={loading} 
+          onPress={() => sendEmail()}
+          title="Send Recovery Email" color="warning"/>
       </View>
 
 

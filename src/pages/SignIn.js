@@ -1,12 +1,23 @@
 import React, {useState} from 'react';
-import { View, Text, TextInput, StyleSheet, Image } from 'react-native';
-
+import { View, Text, TextInput, StyleSheet, Image, AsyncStorage } from 'react-native';
 import formStyles from '../util/FormStyles';
 import Button from '../util/Button';
+import {firebaseApp} from '../api';
 
 const SignIn = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  signIn = () => {
+    setLoading(true);
+    firebaseApp.auth().signInWithEmailAndPassword(email, password)
+      .then(async res => {        
+        //set token
+        await AsyncStorage.setItem('userToken', res.user.uid);        
+        props.navigation.navigate('App')
+      });
+  }
 
   return (
     <View style={styles.container}>
@@ -31,9 +42,9 @@ const SignIn = (props) => {
         onChangeText={e => setPassword(e)}
       />
       <View style={styles.buttons}>
-        <Button title="Sign In" color="success" onPress={() => alert(email)} />
-        <Button title="Sign Up" color="primary" onPress={() => props.navigation.navigate('SignUp')} />
-        <Button title="Forgot Password?" color="link" onPress={() => props.navigation.navigate('ResetPassword')} />        
+        <Button isLoading={loading} title="Sign In" color="success" onPress={() => signIn()} />
+        <Button disabled={loading} title="Sign Up" color="primary" onPress={() => props.navigation.navigate('SignUp')} />
+        <Button disabled={loading} title="Forgot Password?" color="link" onPress={() => props.navigation.navigate('ResetPassword')} />        
       </View>
 
     </View>
