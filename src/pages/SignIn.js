@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text, TextInput, StyleSheet, Image, AsyncStorage } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image, AsyncStorage, KeyboardAvoidingView } from 'react-native';
 import formStyles from '../util/FormStyles';
 import Button from '../util/Button';
 import {firebaseApp} from '../api';
@@ -20,7 +20,7 @@ const SignIn = (props) => {
   }
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
       <View style={styles.logo}>
         <Image source={require('../../assets/react.png')} style={{width: 64, height: 64}}/>
         </View>
@@ -47,7 +47,7 @@ const SignIn = (props) => {
         <Button disabled={loading} title="Forgot Password?" color="link" onPress={() => props.navigation.navigate('ResetPassword')} />        
       </View>
 
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

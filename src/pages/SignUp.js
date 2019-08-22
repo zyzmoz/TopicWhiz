@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import Button from '../util/Button';
 import formStyles from '../util/FormStyles';
 import {firebaseApp} from '../api';
@@ -20,7 +20,7 @@ const SignUp = (props) => {
   
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
       <Text>Email</Text>
       <TextInput
         placeholder="Email"
@@ -54,7 +54,7 @@ const SignUp = (props) => {
 
 
 
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
