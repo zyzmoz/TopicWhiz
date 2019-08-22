@@ -5,24 +5,24 @@ import { firebaseApp } from '../api';
 
 
 const Home = (props) => {
-
   signOut = async () => {
     await AsyncStorage.removeItem('userToken');
     await firebaseApp.auth().signOut();
     props.navigation.navigate('Auth');
   }
-
   return (
     <View style={styles.container} >
       <Text>Open up App.js to start working on your app!</Text>
-      <Button onPress={() => this.signOut()} title="Sign Out" />
+      {/* <Button onPress={() => this.signOut()} title="Sign Out" /> */}
     </View>
   );
-
 }
 
 Home.navigationOptions = {
-  header: null
+  // header: null
+  headerLeft: (
+    <Text onPress={() => this.signOut()}  style={{margin: 8, paddingVertical: 8, color:"#5d9cec"}} >Sign Out</Text>
+  ),
 }
 
 const styles = StyleSheet.create({
