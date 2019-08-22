@@ -11,7 +11,7 @@ const SignUp = (props) => {
   const [loading, setLoading] = useState(false);
   registerUser = () => {
     setLoading(true);
-    firebaseApp.auth().createUserWithEmailAndPassword(email, password)  
+    firebaseApp.auth().createUserWithEmailAndPassword(email.trim(), password)  
       .then(res => {
         console.log('res', res);
         props.navigation.goBack();        
@@ -28,7 +28,7 @@ const SignUp = (props) => {
         textContentType="emailAddress"
         value={email}
         onChangeText={e => setEmail(e)}
-      />
+      />            
       <Text>Password</Text>
       <TextInput
         placeholder="Password"

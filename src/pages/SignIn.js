@@ -11,7 +11,7 @@ const SignIn = (props) => {
 
   signIn = () => {
     setLoading(true);
-    firebaseApp.auth().signInWithEmailAndPassword(email, password)
+    firebaseApp.auth().signInWithEmailAndPassword(email.trim(), password)
       .then(async res => {        
         //set token
         await AsyncStorage.setItem('userToken', res.user.uid);        

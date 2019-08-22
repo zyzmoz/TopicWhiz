@@ -1,26 +1,28 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, Button, AsyncStorage } from 'react-native';
-import {firebaseApp} from '../api';
+import { firebaseApp } from '../api';
 
 
 
-class Home extends Component {
-  static navigationOptions = {
-    header: null
-  }
+const Home = (props) => {
+
   signOut = async () => {
     await AsyncStorage.removeItem('userToken');
     await firebaseApp.auth().signOut();
-    this.props.navigation.navigate('Auth');
+    props.navigation.navigate('Auth');
   }
-  render() {
-    return (
-      <View style={styles.container} >
+
+  return (
+    <View style={styles.container} >
       <Text>Open up App.js to start working on your app!</Text>
-      <Button onPress={() => this.signOut()} title="Sign Out"/>
+      <Button onPress={() => this.signOut()} title="Sign Out" />
     </View>
-    );
-  }
+  );
+
+}
+
+Home.navigationOptions = {
+  header: null
 }
 
 const styles = StyleSheet.create({
