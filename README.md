@@ -1,6 +1,6 @@
 # TopicWhiz
 
-React Native App built willing the viability study of RN withing major projects
+React Native App built willing the viability study of RN within major projects
 
 <img src="https://github.com/zyzmoz/topicwhiz/blob/master/screenshot.png" alt="" data-canonical-src="https://github.com/zyzmoz/topicwhiz/blob/master/screenshot.png" width="360" height="640" />
 
