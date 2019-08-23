@@ -1,23 +1,66 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button, AsyncStorage } from 'react-native';
-import { firebaseApp } from '../api';
+import { StyleSheet, Text, View, AsyncStorage, TextInput, FlatList } from 'react-native';
+import formStyles from '../util/FormStyles';
+import { firebaseApp, topicRef } from '../api';
+import Button from '../util/Button';
+import TopicList from '../components/TopicList';
+
 
 
 
 
 const Home = (props) => {
-
-  console.log(firebaseApp.auth().currentUser);
+  const [text, setText] = useState('');
+  const [submmiting, setSubmmiting] = useState(false);
+  const [topicList, setTopicList] = useState([]);
 
   signOut = async () => {
     await AsyncStorage.removeItem('userToken');
     await firebaseApp.auth().signOut();
     props.navigation.navigate('Auth');
   }
+
+  useEffect(() => {
+    topicRef.child('topic').on('value', (res) => {
+      const ds = [];
+      res.forEach(item => {
+        ds.push(item.val());
+      });
+      setTopicList(ds);
+    });
+  }, []);
+
+
+
+  postTopic = () => {
+    setSubmmiting(true);
+    const { uid, displayName } = firebaseApp.auth().currentUser;
+    topicRef.child('topic').push({
+      userId: uid,
+      userName: displayName,
+      text,
+      createdAt: new Date()
+    })
+      .then(res => setSubmmiting(false))
+      .catch(err => setSubmmiting(false));
+
+    setText('');
+
+
+  }
+
   return (
     <View style={styles.container} >
-      <Text>Open up App.js to start working on your app!</Text>
-      {/* <Button onPress={() => this.signOut()} title="Sign Out" /> */}
+      <View style={styles.form}>
+        <TextInput
+          placeholder="What's in your mind?"
+          style={formStyles.input}
+          value={text}
+          onChangeText={e => setText(e)}
+        />
+        <Button title="Post" color="primary" isLoading={submmiting} onPress={() => postTopic()} />
+      </View>
+      <TopicList list={topicList}/>
     </View>
   );
 }
@@ -52,8 +95,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    margin: 8
   },
+  form: {
+    width: '100%'
+  },
+  
 });
 
 export default Home;
