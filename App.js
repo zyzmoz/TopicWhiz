@@ -6,6 +6,7 @@ import SignIn from './src/pages/SignIn';
 import SignUp from './src/pages/SignUp';
 import ResetPassword from './src/pages/ResetPassword';
 import AuthLoading from './src/pages/AuthLoading';
+import TopicDetails from './src/pages/TopicDetails';
 
 // const AppNavigator = createStackNavigator({  
 //   Home: {
@@ -41,6 +42,9 @@ const AppStack = createStackNavigator({
     Home: {
     screen: Home    
   },
+  TopicDetails: {
+    screen: TopicDetails
+  }
 }, {
   initialRouteName: 'Home'
 });

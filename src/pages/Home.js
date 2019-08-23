@@ -6,9 +6,6 @@ import Button from '../util/Button';
 import TopicList from '../components/TopicList';
 
 
-
-
-
 const Home = (props) => {
   const [text, setText] = useState('');
   const [submmiting, setSubmmiting] = useState(false);
@@ -23,9 +20,10 @@ const Home = (props) => {
   useEffect(() => {
     topicRef.child('topic').on('value', (res) => {
       const ds = [];
-      res.forEach(item => {
-        ds.push(item.val());
-      });
+      Object.keys(res.val()).map((key) => {
+        ds.unshift({_id: key, ...res.val()[key]});
+      })
+      
       setTopicList(ds);
     });
   }, []);
@@ -60,7 +58,7 @@ const Home = (props) => {
         />
         <Button title="Post" color="primary" isLoading={submmiting} onPress={() => postTopic()} />
       </View>
-      <TopicList list={topicList}/>
+      <TopicList {...props} list={topicList}/>
     </View>
   );
 }

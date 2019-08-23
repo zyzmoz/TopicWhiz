@@ -1,17 +1,15 @@
 import React from 'react';
 import {View, FlatList, Text, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
 
-const TopicList = (props) => {
-  const list = props.list;
+const CommentList = (props) => {
+  const list = props.list;  
   return (
     <ScrollView style={styles.list}>
         {list && <FlatList
+          extraData={props}
           data={list}
           renderItem={({ item }) =>
-            <TouchableOpacity 
-              onPress={() => props.navigation.navigate('TopicDetails', {
-                topic: item
-              })}
+            <TouchableOpacity               
               style={styles.item}>
               <Text>{item.text}</Text>
               <Text style={styles.author}>by:{item.userName}</Text>
@@ -39,4 +37,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default TopicList;
+export default CommentList;
