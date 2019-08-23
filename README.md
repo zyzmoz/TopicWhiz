@@ -9,6 +9,8 @@ React Native App built willing the viability study of RN withing major projects
 - React Native
 - React Navigation
 - Expo
+- Firebase
+- Hooks
 
 
 ## Commands
