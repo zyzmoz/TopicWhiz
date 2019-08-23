@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, FlatList, Text, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
+import { FlatList, Text, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
 
 const TopicList = (props) => {
   const list = props.list;
