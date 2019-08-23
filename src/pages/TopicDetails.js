@@ -16,25 +16,26 @@ const TopicDetails = (props) => {
   postComment = () => {
     
     setSubmmiting(true);
-    const { uid, displayName } = firebaseApp.auth().currentUser;    
+    const { uid, displayName } = firebaseApp.auth().currentUser; 
+    let newComments = comments;   
     if (comments){
-      comments.unshift({
+      newComments.unshift({
         userId: uid,
-        displayName,
+        userName:displayName,
         text
       });
     } else {
-      comments = [{
+      newComments = [{
         userId: uid,
         userName: displayName,
         text
       }];
     }
 
-    setComments(comments);
+    setComments(newComments);
 
     topicRef.child(`topic/${topic._id}`).update({
-      comments
+      comments:newComments
     })
       .then(res => setSubmmiting(false))
       .catch(err => setSubmmiting(false));
